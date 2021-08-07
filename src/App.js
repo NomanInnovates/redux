@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
-
+import Students from './modules/students/Student';
+import './App.css'
+import {useSelector,useDispatch} from 'react-redux'
+import {productAction } from './redux/action/productAction'
+import {addStudent } from './redux/action/studentActions'
+import {fetchFollowers } from './redux/action/gitHubAction'
 function App() {
+  const dispatch = useDispatch()
+  const products = useSelector(state => state.productReducer.products
+    )
+  console.log("app.js store in Reducers=>",products);
+
+  let ctaHandler = () =>{
+    let dataPassToStore = {
+      agNo:"5232",
+      createdAt:new Date()
+    }
+    dispatch(addStudent(dataPassToStore))
+  }
+  
+  let ctaHandlerGithub = () =>{
+    let dataPassToStore = 'naveed-rana'
+    dispatch(fetchFollowers(dataPassToStore))
+  }
+  let ctaHandlerPro = () => {
+    let dataPassToStor = {
+      title:"pikapu"
+    }
+    dispatch(productAction(dataPassToStor))
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={ctaHandlerPro}>fetch Products Reducer</button>
+      <button onClick={ctaHandlerGithub}>fetch followers Reducer</button>
+      <button onClick={ctaHandler}>Update Reducer</button>
+     <Students />
     </div>
   );
 }
